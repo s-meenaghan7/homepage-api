@@ -91,9 +91,13 @@
         "iam:GetRolePolicy",
         "iam:ListRolePolicies",
         "iam:ListAttachedRolePolicies",
+        "iam:ListInstanceProfilesForRole",
+        "iam:ListRoleTags",
         "iam:TagRole",
         "iam:UntagRole",
-        "iam:ListInstanceProfilesForRole"
+        "iam:ListPolicyTags",
+        "iam:TagPolicy",
+        "iam:UntagPolicy"
       ],
       "Resource": ["arn:aws:iam::659077917555:role/*"]
     },
