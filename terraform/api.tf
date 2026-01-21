@@ -20,13 +20,13 @@ resource "aws_apigatewayv2_stage" "production" {
 
 resource "aws_apigatewayv2_route" "get_visitor" {
   api_id    = aws_apigatewayv2_api.homepage_api.id
-  route_key = "GET /visitor"
+  route_key = "GET /visitor/{page_id}"
   target    = "integrations/${aws_apigatewayv2_integration.get_visitor.id}"
 }
 
 resource "aws_apigatewayv2_route" "post_visitor" {
   api_id    = aws_apigatewayv2_api.homepage_api.id
-  route_key = "POST /visitor"
+  route_key = "POST /visitor/{page_id}"
   target    = "integrations/${aws_apigatewayv2_integration.post_visitor.id}"
 }
 
