@@ -8,6 +8,9 @@ on:
       - "lambdas/visitor/**"
   workflow_dispatch:
 
+permissions:
+  id-token: write
+
 env:
   AWS_REGION: us-west-2
   FUNCTION_NAME: visitor-api
