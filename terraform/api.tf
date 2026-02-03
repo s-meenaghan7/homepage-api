@@ -36,6 +36,12 @@ resource "aws_lambda_function" "visitor_api" {
   runtime       = "provided.al2023"
   handler       = "bootstrap"
 
+  environment {
+    variables = {
+      "TABLE_NAME" = aws_dynamodb_table.visitor_counter.name
+    }
+  }
+
   # this file must exist, but won't be used for updates
   filename = "placeholder.zip"
 
