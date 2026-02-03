@@ -1,0 +1,51 @@
+name: Deploy Visitor Count Lambda
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "lambdas/visitor/**"
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-west-2
+  FUNCTION_NAME: visitor-api
+  ROLE_TO_ASSUME: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6.2.0
+        with:
+          go-version-file: "go.mod"
+
+      - name: Build Lambda binary
+        working-directory: lambdas/visitor
+        env:
+          GOOS: linux
+          GOARCH: amd64
+          CGO_ENABLED: 0
+        run: |
+          go mod tidy
+          go build -o bootstrap
+          zip bootstrap.zip bootstrap
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ env.ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GitHubActions-VisitorLambda
+
+      - name: Deploy to AWS Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ env.FUNCTION_NAME }} \
+            --zip-file fileb://lambdas/visitor/bootstrap.zip
