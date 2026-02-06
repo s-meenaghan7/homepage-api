@@ -96,5 +96,5 @@ resource "aws_apigatewayv2_api_mapping" "api_mapping" {
   api_id          = aws_apigatewayv2_api.homepage_api.id
   domain_name     = aws_apigatewayv2_domain_name.api_domain_name.id
   stage           = "production"
-  api_mapping_key = "v1/visitor"
+  api_mapping_key = "v1"
 }
