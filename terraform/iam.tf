@@ -154,3 +154,29 @@ resource "aws_iam_role_policy_attachment" "frontend_deploy" {
   role       = aws_iam_role.frontend_deploy.name
   policy_arn = aws_iam_policy.deploy_site.arn
 }
+
+# ------------------------------------------------------------------------------
+# IAM — API Gateway must be allowed to write to CloudWatch Logs
+# ------------------------------------------------------------------------------
+resource "aws_iam_role" "api_gw_cloudwatch" {
+  name = "api-gateway-cloudwatch-logs-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "apigateway.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "api_gw_cloudwatch" {
+  role       = aws_iam_role.api_gw_cloudwatch.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+}
+
+# Registers the IAM role with API Gateway at the account level.
+resource "aws_api_gateway_account" "main" {
+  cloudwatch_role_arn = aws_iam_role.api_gw_cloudwatch.arn
+}
