@@ -1,3 +1,8 @@
+# ==============================================================================
+# Main API Gateway configuration, including routes, integrations, custom domain,
+# and ACM certificate.
+# ==============================================================================
+
 resource "aws_apigatewayv2_api" "homepage_api" {
   name                         = "homepage"
   protocol_type                = "HTTP"
@@ -16,6 +21,38 @@ resource "aws_apigatewayv2_stage" "production" {
   api_id      = aws_apigatewayv2_api.homepage_api.id
   name        = "production"
   auto_deploy = true
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_access_logs.arn
+    format = jsonencode({
+      # --- Request identity ---
+      requestId   = "$context.requestId"
+      ip          = "$context.identity.sourceIp"
+      userAgent   = "$context.identity.userAgent"
+      requestTime = "$context.requestTime"
+      httpMethod  = "$context.httpMethod"
+      routeKey    = "$context.routeKey"
+      path        = "$context.path"
+      queryString = "$context.queryStringParameters"
+
+      # --- Response ---
+      status         = "$context.status"
+      responseLength = "$context.responseLength"
+
+      # --- Performance ---
+      integrationLatency = "$context.integrationLatency"
+      responseLatency    = "$context.responseLatency"
+
+      # --- Errors (will be "-" when no error occurred) ---
+      integrationErrorMessage = "$context.integrationErrorMessage"
+      errorMessage            = "$context.error.message"
+      errorResponseType       = "$context.error.responseType"
+    })
+  }
+
+  tags = {
+    ManagedBy = "Terraform"
+  }
 }
 
 resource "aws_apigatewayv2_route" "get_visitor" {
