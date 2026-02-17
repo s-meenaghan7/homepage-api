@@ -33,7 +33,7 @@ resource "aws_iam_role_policy" "dynamodb_access" {
           "dynamodb:Query",
           "dynamodb:Scan"
         ],
-        "Resource" : "arn:aws:dynamodb:us-west-2:659077917555:table/homepage-visitor-table-*"
+        "Resource" : aws_dynamodb_table.visitor_counter.arn
       }
     ]
   })
