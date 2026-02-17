@@ -8,6 +8,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -20,6 +21,12 @@ func InitDynamoClient(ctx context.Context, endpoint string) *dynamodb.Client {
 	cfg, err := config.LoadDefaultConfig(ctx,
 		config.WithRegion("dummy-region"),
 		config.WithBaseEndpoint(containerEndpoint),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
+				"dummyKey",
+				"dummySecret",
+				"",
+			),
+		),
 	)
 	if err != nil {
 		panic(err)
