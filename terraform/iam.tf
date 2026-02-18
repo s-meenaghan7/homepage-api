@@ -11,6 +11,15 @@ resource "aws_iam_role" "lambda_exec" {
         "Principal" : {
           "Service" : "lambda.amazonaws.com"
         }
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "lambda:InvokeFunction"
+        ],
+        "Principal" : {
+          "Service" : "apigateway.amazonaws.com"
+        }
       }
     ]
   })
@@ -30,15 +39,6 @@ resource "aws_iam_role_policy" "lambda_exec" {
           "logs:*"
         ],
         "Resource" : "*"
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "lambda:InvokeFunction"
-        ],
-        "Principal" : {
-          "Service" : "apigateway.amazonaws.com"
-        }
       }
     ]
   })
