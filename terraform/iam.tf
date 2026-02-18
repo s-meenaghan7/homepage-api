@@ -16,6 +16,34 @@ resource "aws_iam_role" "lambda_exec" {
   })
 }
 
+resource "aws_iam_role_policy" "lambda_exec" {
+  name = "lambda-default-execution-policy"
+  role = aws_iam_role.lambda_exec.id
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "CloudWatchLogsAccess",
+        "Effect" : "Allow",
+        "Action" : [
+          "logs:*"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "lambda:InvokeFunction"
+        ],
+        "Principal" : {
+          "Service" : "apigateway.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy" "dynamodb_access" {
   name = "homepage-visitor-dynamodb-access"
   role = aws_iam_role.lambda_exec.id

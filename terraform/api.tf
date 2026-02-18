@@ -68,7 +68,7 @@ resource "aws_apigatewayv2_route" "post_visitor" {
 
 resource "aws_lambda_function" "visitor_api" {
   function_name = "visitor-api"
-  role          = "arn:aws:iam::659077917555:role/lambda-default-execution-role"
+  role          = aws_iam_role.lambda_exec.arn
   runtime       = "provided.al2023"
   handler       = "bootstrap"
 
