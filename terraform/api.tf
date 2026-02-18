@@ -33,7 +33,6 @@ resource "aws_apigatewayv2_stage" "production" {
       httpMethod  = "$context.httpMethod"
       routeKey    = "$context.routeKey"
       path        = "$context.path"
-      queryString = "$context.queryStringParameters"
 
       # --- Response ---
       status         = "$context.status"
