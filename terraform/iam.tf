@@ -109,9 +109,15 @@ resource "aws_iam_role" "backend_deploy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "backend_deploy" {
+# REMOVED 2/18/2026 - This role is currently not used due to complexity setting a secure, but broadly-scoped policy for Terraform deployments.
+# resource "aws_iam_role_policy_attachment" "backend_deploy" {
+#   role       = aws_iam_role.backend_deploy.name
+#   policy_arn = aws_iam_policy.deployment.arn
+# }
+
+resource "aws_iam_role_policy_attachment" "terraform_deploy" {
   role       = aws_iam_role.backend_deploy.name
-  policy_arn = aws_iam_policy.deployment.arn
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 resource "aws_iam_policy" "deploy_site" {
