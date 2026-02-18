@@ -14,9 +14,7 @@ resource "aws_iam_role" "lambda_exec" {
       },
       {
         "Effect" : "Allow",
-        "Action" : [
-          "lambda:InvokeFunction"
-        ],
+        "Action" : "sts:AssumeRole",
         "Principal" : {
           "Service" : "apigateway.amazonaws.com"
         }
