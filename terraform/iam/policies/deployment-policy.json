@@ -132,19 +132,7 @@
     {
       "Sid": "CloudWatchLogsPermissions",
       "Effect": "Allow",
-      "Action": [
-        "logs:ListTagsForResource",
-        "logs:CreateLogGroup",
-        "logs:DeleteLogGroup",
-        "logs:DescribeLogGroups",
-        "logs:ListTagsLogGroup",
-        "logs:TagLogGroup",
-        "logs:UntagLogGroup",
-        "logs:PutRetentionPolicy",
-        "logs:DeleteRetentionPolicy",
-        "logs:CreateLogDelivery",
-        "logs:ListLogDeliveries"
-      ],
+      "Action": ["logs:*"],
       "Resource": "*"
     },
     {
