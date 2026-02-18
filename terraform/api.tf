@@ -97,6 +97,8 @@ resource "aws_apigatewayv2_integration" "get_visitor" {
   description        = "GET /visitor Lambda integration"
   integration_method = "GET"
   integration_uri    = aws_lambda_function.visitor_api.arn
+
+  payload_format_version = "2.0"
 }
 
 resource "aws_apigatewayv2_integration" "post_visitor" {
@@ -107,6 +109,8 @@ resource "aws_apigatewayv2_integration" "post_visitor" {
   description        = "POST /visitor Lambda integration"
   integration_method = "POST"
   integration_uri    = aws_lambda_function.visitor_api.arn
+
+  payload_format_version = "2.0"
 }
 
 resource "aws_apigatewayv2_domain_name" "api_domain_name" {
