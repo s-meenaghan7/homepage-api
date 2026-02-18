@@ -105,7 +105,10 @@
       "Sid": "IAMPassRolePermissions",
       "Effect": "Allow",
       "Action": ["iam:PassRole"],
-      "Resource": ["arn:aws:iam::659077917555:role/lambda-default-execution-role"],
+      "Resource": [
+        "arn:aws:iam::659077917555:role/lambda-default-execution-role",
+        "arn:aws:iam::659077917555:role/api-gateway-cloudwatch-logs-role"
+      ],
       "Condition": {
         "StringEquals": {
           "iam:PassedToService": ["lambda.amazonaws.com", "apigateway.amazonaws.com"]
@@ -130,6 +133,7 @@
       "Sid": "CloudWatchLogsPermissions",
       "Effect": "Allow",
       "Action": [
+        "logs:ListTagsForResource",
         "logs:CreateLogGroup",
         "logs:DeleteLogGroup",
         "logs:DescribeLogGroups",
