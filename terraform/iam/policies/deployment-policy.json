@@ -141,7 +141,9 @@
         "logs:TagLogGroup",
         "logs:UntagLogGroup",
         "logs:PutRetentionPolicy",
-        "logs:DeleteRetentionPolicy"
+        "logs:DeleteRetentionPolicy",
+        "logs:CreateLogDelivery",
+        "logs:ListLogDeliveries"
       ],
       "Resource": "*"
     },
