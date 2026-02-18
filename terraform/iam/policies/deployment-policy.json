@@ -39,29 +39,7 @@
     {
       "Sid": "LambdaPermissions",
       "Effect": "Allow",
-      "Action": [
-        "lambda:CreateFunction",
-        "lambda:DeleteFunction",
-        "lambda:GetFunction",
-        "lambda:GetFunctionCodeSigningConfig",
-        "lambda:GetFunctionConfiguration",
-        "lambda:UpdateFunctionCode",
-        "lambda:UpdateFunctionConfiguration",
-        "lambda:ListFunctions",
-        "lambda:ListVersionsByFunction",
-        "lambda:PublishVersion",
-        "lambda:CreateAlias",
-        "lambda:DeleteAlias",
-        "lambda:GetAlias",
-        "lambda:UpdateAlias",
-        "lambda:AddPermission",
-        "lambda:RemovePermission",
-        "lambda:GetPolicy",
-        "lambda:TagResource",
-        "lambda:UntagResource",
-        "lambda:ListTags",
-        "lambda:InvokeFunction"
-      ],
+      "Action": ["*"],
       "Resource": ["arn:aws:lambda:us-west-2:659077917555:function:*"]
     },
     {
@@ -80,31 +58,13 @@
     {
       "Sid": "IAMRolePermissions",
       "Effect": "Allow",
-      "Action": [
-        "iam:CreateRole",
-        "iam:DeleteRole",
-        "iam:GetRole",
-        "iam:AttachRolePolicy",
-        "iam:DetachRolePolicy",
-        "iam:PutRolePolicy",
-        "iam:DeleteRolePolicy",
-        "iam:GetRolePolicy",
-        "iam:ListRolePolicies",
-        "iam:ListAttachedRolePolicies",
-        "iam:ListInstanceProfilesForRole",
-        "iam:ListRoleTags",
-        "iam:TagRole",
-        "iam:UntagRole",
-        "iam:ListPolicyTags",
-        "iam:TagPolicy",
-        "iam:UntagPolicy"
-      ],
+      "Action": ["*"],
       "Resource": ["arn:aws:iam::659077917555:role/*"]
     },
     {
       "Sid": "IAMPassRolePermissions",
       "Effect": "Allow",
-      "Action": ["iam:PassRole"],
+      "Action": ["*"],
       "Resource": [
         "arn:aws:iam::659077917555:role/lambda-default-execution-role",
         "arn:aws:iam::659077917555:role/api-gateway-cloudwatch-logs-role"
@@ -148,7 +108,16 @@
     {
       "Sid": "S3BucketPermissions",
       "Effect": "Allow",
-      "Action": ["s3:ListBucket"],
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation",
+        "s3:GetBucketVersioning",
+        "s3:PutBucketVersioning",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:PutBucketPublicAccessBlock",
+        "s3:GetBucketOwnershipControls",
+        "s3:PutBucketOwnershipControls"
+      ],
       "Resource": ["arn:aws:s3:::s-meenaghan-terraform-state/"]
     },
     {
@@ -160,7 +129,7 @@
     {
       "Sid": "Tagging",
       "Effect": "Allow",
-      "Action": ["tag:GetResources", "tag:TagResources", "tag:UntagResources"],
+      "Action": ["*"],
       "Resource": "*"
     }
   ]
