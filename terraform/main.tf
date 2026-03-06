@@ -20,8 +20,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      ManagedBy   = "Terraform"
-      Application = "homepage"
+      Application    = "homepage"
+      awsApplication = "arn:aws:resource-groups:us-west-2:659077917555:group/homepage/06i43yh8tvfxxnq6a2fqezbcxe"
+      ManagedBy      = "Terraform"
     }
   }
 }
