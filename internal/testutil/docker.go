@@ -23,12 +23,12 @@ func RunDockerDynamoDB(ctx context.Context) (string, func()) {
 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: req,
-		Started: true,
+		Started:          true,
 	})
 	if err != nil {
 		panic(err)
 	}
-	
+
 	endpoint, err := container.Endpoint(ctx, "")
 	if err != nil {
 		panic(err)

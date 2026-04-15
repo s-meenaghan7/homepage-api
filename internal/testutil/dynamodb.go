@@ -22,10 +22,10 @@ func InitDynamoClient(ctx context.Context, endpoint string) *dynamodb.Client {
 		config.WithRegion("dummy-region"),
 		config.WithBaseEndpoint(containerEndpoint),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-				"dummyKey",
-				"dummySecret",
-				"",
-			),
+			"dummyKey",
+			"dummySecret",
+			"",
+		),
 		),
 	)
 	if err != nil {
