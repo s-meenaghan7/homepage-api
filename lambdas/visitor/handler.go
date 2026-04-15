@@ -24,23 +24,30 @@ func Handler(svc VisitorService) func(
 			return responses.Error(400, "Bad Request: missing page_id path parameter"), nil
 		}
 
-		if req.RequestContext.HTTP.Method == "GET" {
-			count, err := svc.GetVisits(ctx, pageID)
-			if err != nil {
-				return responses.Error(400, err.Error()), nil
-			}
-			return responses.Success(200, VisitorCountResponseBody{Count: count}), nil
-		}
-
-		if req.RequestContext.HTTP.Method == "POST" {
-			count, err := svc.HandleVisit(ctx, pageID)
-			if err != nil {
-				return responses.Error(400, err.Error()), nil
-			}
-			return responses.Success(200, VisitorCountResponseBody{Count: count}), nil
+		switch req.RequestContext.HTTP.Method {
+		case "GET":
+			return handleGetRequest(ctx, svc, pageID)
+		case "POST":
+			return handlePostRequest(ctx, svc, pageID)
 		}
 
 		// default, method not allowed
 		return responses.Error(405, "Method Not Allowed"), nil
 	}
+}
+
+func handleGetRequest(ctx context.Context, svc VisitorService, pageID string) (events.APIGatewayV2HTTPResponse, error) {
+	count, err := svc.GetVisits(ctx, pageID)
+	if err != nil {
+		return responses.Error(400, err.Error()), nil
+	}
+	return responses.Success(200, VisitorCountResponseBody{Count: count}), nil
+}
+
+func handlePostRequest(ctx context.Context, svc VisitorService, pageID string) (events.APIGatewayV2HTTPResponse, error) {
+	count, err := svc.HandleVisit(ctx, pageID)
+	if err != nil {
+		return responses.Error(400, err.Error()), nil
+	}
+	return responses.Success(200, VisitorCountResponseBody{Count: count}), nil
 }
