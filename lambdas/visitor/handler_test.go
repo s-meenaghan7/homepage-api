@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"homepage-api/internal/testutil"
+	"net/http"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -52,9 +54,7 @@ func TestHandler_GET_Success(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if response.StatusCode != 200 {
-		t.Fatalf("expected 200, got %d. %s", response.StatusCode, response.Body)
-	}
+	testutil.AssertStatusCode(t, response.StatusCode, http.StatusOK)
 
 	var b VisitorCountResponseBody
 	json.Unmarshal([]byte(response.Body), &b)
@@ -78,9 +78,7 @@ func TestHandler_GET_Error(t *testing.T) {
 	if err != nil {
 		t.Fatalf("handler should not return errors to lambda function")
 	}
-	if response.StatusCode != 400 {
-		t.Fatalf("expected response.StatusCode to be [%d], but got [%d]", 400, response.StatusCode)
-	}
+	testutil.AssertStatusCode(t, response.StatusCode, http.StatusBadRequest)
 
 	var body map[string]string
 	json.Unmarshal([]byte(response.Body), &body)
@@ -104,12 +102,8 @@ func TestHandler_POST_Success(t *testing.T) {
 
 	response, err := handler(context.Background(), req)
 
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if response.StatusCode != 200 {
-		t.Fatalf("expected 200, got %d. %s", response.StatusCode, response.Body)
-	}
+	testutil.AssertNilError(t, err)
+	testutil.AssertStatusCode(t, response.StatusCode, http.StatusOK)
 
 	var b VisitorCountResponseBody
 	json.Unmarshal([]byte(response.Body), &b)
@@ -134,9 +128,7 @@ func TestHandler_POST_Error(t *testing.T) {
 	if err != nil {
 		t.Fatalf("handler should not return errors to lambda function")
 	}
-	if response.StatusCode != 400 {
-		t.Fatalf("expected response.StatusCode to be [%d], but got [%d]", 400, response.StatusCode)
-	}
+	testutil.AssertStatusCode(t, response.StatusCode, http.StatusBadRequest)
 
 	var body map[string]string
 	json.Unmarshal([]byte(response.Body), &body)
@@ -158,9 +150,7 @@ func TestMissingPageID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("handler should not return errors to lambda function")
 	}
-	if response.StatusCode != 400 {
-		t.Fatalf("expected response.StatusCode to be [%d], but got [%d]", 400, response.StatusCode)
-	}
+	testutil.AssertStatusCode(t, response.StatusCode, http.StatusBadRequest)
 
 	var body map[string]string
 	json.Unmarshal([]byte(response.Body), &body)
@@ -182,9 +172,7 @@ func TestHandler_MethodNotAllowed(t *testing.T) {
 	if err != nil {
 		t.Fatalf("handler should not return errors to lambda function")
 	}
-	if response.StatusCode != 405 {
-		t.Fatalf("expected response.StatusCode to be [%d], but got [%d]", 405, response.StatusCode)
-	}
+	testutil.AssertStatusCode(t, response.StatusCode, http.StatusMethodNotAllowed)
 
 	var body map[string]string
 	json.Unmarshal([]byte(response.Body), &body)

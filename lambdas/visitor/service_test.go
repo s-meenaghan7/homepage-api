@@ -2,6 +2,7 @@ package visitor
 
 import (
 	"context"
+	"homepage-api/internal/testutil"
 	"testing"
 )
 
@@ -29,9 +30,7 @@ func TestHandleVisit_Success(t *testing.T) {
 
 	count, err := svc.HandleVisit(context.Background(), "/")
 
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	testutil.AssertNilError(t, err)
 	if count != expected {
 		t.Fatalf("expected [%d], got [%d]", expected, count)
 	}
@@ -48,9 +47,7 @@ func TestGetVisits_Success(t *testing.T) {
 
 	count, err := svc.GetVisits(context.Background(), "/")
 
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	testutil.AssertNilError(t, err)
 	if count != expected {
 		t.Fatalf("expected [%d], got [%d]", expected, count)
 	}
